@@ -5,7 +5,7 @@ describe('Controller: PetIndexCtrl', function () {
   var should = chai.should();
 
   // load the controller's module
-  beforeEach(module('YoTabs'));
+  beforeEach(module('CheckList'));
 
   var PetIndexCtrl,
     scope;

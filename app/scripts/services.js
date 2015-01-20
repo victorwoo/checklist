@@ -1,5 +1,5 @@
 'use strict';
-angular.module('YoTabs.services', [])
+angular.module('CheckList.services', [])
 
 /**
  * A simple example service that returns some data.

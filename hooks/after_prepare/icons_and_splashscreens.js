@@ -20,7 +20,7 @@ var Orchestrator = require('orchestrator');
 
 var BASES = {
   android: 'res',
-  ios: 'YoTabs/Resources'
+  ios: 'CheckList/Resources'
 };
 var RESOURCE_DIR = 'resources';
 

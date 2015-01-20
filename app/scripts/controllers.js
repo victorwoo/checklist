@@ -1,5 +1,5 @@
 'use strict';
-angular.module('YoTabs.controllers', [])
+angular.module('CheckList.controllers', [])
 
 .controller('DashCtrl', function($scope) {
 })
