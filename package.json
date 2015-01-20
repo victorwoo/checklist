@@ -1,5 +1,5 @@
 {
-  "name": "YoTabs",
+  "name": "CheckList",
   "version": "0.1.0",
   "private": true,
   "dependencies": {},
@@ -51,5 +51,19 @@
     "https://github.com/driftyco/ionic-plugins-keyboard.git",
     "org.apache.cordova.statusbar",
     "org.apache.cordova.console"
-  ]
+  ],
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/victorwoo/checklist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victorwoo/checklist/issues"
+  },
+  "homepage": "https://github.com/victorwoo/checklist"
 }
