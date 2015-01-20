@@ -58,12 +58,33 @@ angular.module('CheckList', ['ionic', 'config', 'CheckList.controllers', 'CheckL
         }
       }
     })
+
+    .state('tab.templates', {
+      url: '/templates',
+      views: {
+        'tab-templates': {
+          templateUrl: 'templates/tab-templates.html',
+          controller: 'TemplatesCtrl'
+        }
+      }
+    })
+
     .state('tab.friend-detail', {
       url: '/friend/:friendId',
       views: {
         'tab-friends': {
           templateUrl: 'templates/friend-detail.html',
           controller: 'FriendDetailCtrl'
+        }
+      }
+    })
+
+    .state('tab.template-detail', {
+      url: '/template/:templateId',
+      views: {
+        'tab-templates': {
+          templateUrl: 'templates/template-detail.html',
+          controller: 'TemplateDetailCtrl'
         }
       }
     })

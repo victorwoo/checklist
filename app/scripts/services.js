@@ -25,3 +25,25 @@ angular.module('CheckList.services', [])
     }
   };
 });
+
+angular.module('CheckList.services').factory('Templates', function() {
+  var templates = [
+    { id: 0, name: '出差', items: ['身份证', '盥洗包', '酒店会员卡', '移动电源'] },
+    { id: 1, name: '骑行', items: ['头盔', '码表', '水壶', '手电', '移动电源'] }
+  ];
+
+  return {
+    all: function() {
+      return templates;
+    },
+    get: function(templateId) {
+      return templates[templateId];
+    },
+    add: function(template) {
+      templates.push(template);
+    },
+    remove: function(templateId) {
+      delete templates.templateId;
+    }
+  };
+});
