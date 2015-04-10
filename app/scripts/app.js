@@ -31,7 +31,8 @@ angular.module('starter', ['ionic'])
       // Each tab has its own nav history stack:
       .state('detail', {
         url: '/detail/:id',
-        templateUrl: "/templates/detail.html"
+        templateUrl: "/templates/detail.html",
+        controller: "DetailCtrl as detail"
       });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/');

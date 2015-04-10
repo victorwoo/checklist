@@ -1,14 +1,29 @@
 <!-- The title of the ion-view will be shown on the navbar -->
 <ion-view view-title="{{list.title}}">
+  <ion-nav-buttons side="primary">
+    <button class="button" ng-click="list.toggleEdit()">
+      Edit
+    </button>
+    <!--<ion-nav-title>-->
+    <!--{{list.title}}-->
+    <!--</ion-nav-title>-->
+  </ion-nav-buttons>
+  <ion-nav-buttons side="secondary">
+    <button class="button" ng-click="list.add()">
+      Add
+    </button>
+  </ion-nav-buttons>
   <ion-content>
     <!-- The content of the page -->
-    <ul class="list">
-      <li class="item">
-        aaa
-      </li>
-      <li class="item">
-        bbb
-      </li>
-    </ul>
+    <ion-list show-reorder="list.isEditing" class="item-remove-animate">
+      <ion-item ng-repeat="checklist in list.checklists" item="checklist">
+        Item {{checklist.name}}
+        <ion-option-button class="button-assertive" ng-click="list.remove(checklist)">Remove</ion-option-button>
+        <!--<ion-delete-button class="ion-minus-circled"></ion-delete-button>-->
+        <ion-reorder-button class="ion-navicon"></ion-reorder-button>
+      </ion-item>
+    </ion-list>
+
+
   </ion-content>
 </ion-view>
