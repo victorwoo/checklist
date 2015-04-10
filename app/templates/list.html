@@ -16,7 +16,7 @@
   <ion-content>
     <!-- The content of the page -->
     <ion-list show-reorder="list.isEditing" class="item-remove-animate">
-      <ion-item ng-repeat="checklist in list.checklists" item="checklist">
+      <ion-item ng-repeat="checklist in list.checklists" item="checklist" href="#/detail/{{checklist.id}}">
         Item {{checklist.name}}
         <ion-option-button class="button-assertive" ng-click="list.remove(checklist)">Remove</ion-option-button>
         <!--<ion-delete-button class="ion-minus-circled"></ion-delete-button>-->
