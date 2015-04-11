@@ -23,29 +23,13 @@
     vm.moveItem = moveItem;
     vm.remove = remove;
 
-    //vm.checklists = [{
-    //  id: 0,
-    //  name: '出差',
-    //  items: [
-    //    '身份证',
-    //    '衣服'
-    //  ]
-    //}, {
-    //  id: 1,
-    //  name: '游泳',
-    //  items: [
-    //    '球拍',
-    //    '毛巾'
-    //  ]
-    //}];
-
     activate();
 
     ////////////////
 
     function activate() {
       //checklistRepo.init();
-      vm.checklists = checklistRepo.load();
+      vm.checklists = checklistRepo.loadAll();
     }
 
     function toggleEdit() {
@@ -58,13 +42,15 @@
 
     function moveItem (item, fromIndex, toIndex) {
       //Move the item in the array
-      $scope.items.splice(fromIndex, 1);
-      $scope.items.splice(toIndex, 0, item);
+      vm.checklists.splice(fromIndex, 1);
+      vm.checklists.splice(toIndex, 0, item);
+      checklistRepo.saveAll(vm.checklists);
     }
 
     function remove(item) {
       var index = vm.checklists.indexOf(item);
       vm.checklists.splice(index, 1);
+      checklistRepo.saveAll(vm.checklists);
     }
   }
 
