@@ -14,7 +14,7 @@
     /* jshint validthis: true */
     var vm = this;
 
-    vm.title = 'ListCtrl title!';
+    vm.title = 'Checklist';
     vm.isEditing = false;
 
     vm.activate = activate;

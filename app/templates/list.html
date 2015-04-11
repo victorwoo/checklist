@@ -19,8 +19,7 @@
       <ion-item ng-repeat="checklist in list.checklists" item="checklist" href="#/detail/{{checklist.id}}">
         Item {{checklist.name}}
         <ion-option-button class="button-assertive" ng-click="list.remove(checklist)">Remove</ion-option-button>
-        <!--<ion-delete-button class="ion-minus-circled"></ion-delete-button>-->
-        <ion-reorder-button class="ion-navicon"></ion-reorder-button>
+        <ion-reorder-button class="ion-navicon" on-reorder="console.log(1);list.moveItem(checklist, $fromIndex, $toIndex)"></ion-reorder-button>
       </ion-item>
     </ion-list>
 
