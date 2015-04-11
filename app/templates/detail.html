@@ -1,14 +1,43 @@
 <!-- The title of the ion-view will be shown on the navbar -->
-<ion-view view-title="Detail">
+<ion-view view-title="{{detail.checklist.name}}">
+
+  <ion-nav-title>
+    <!--{{list.title}}-->
+    <label class="item item-input" ng-show="detail.isEditingName">
+      <input type="text" placeholder="Name of Checklist" ng-model="detail.checklist.name">
+    </label>
+    <h1 class="title" ng-show="!detail.isEditingName" ng-click="detail.isEditingName = true">{{detail.checklist.name}}</h1>
+  </ion-nav-title>
+
+  <ion-nav-buttons side="primary">
+    <button class="button" ng-click="list.toggleEdit()">
+      Edit
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="secondary">
+    <button class="button" ng-click="list.add()">
+      Add
+    </button>
+  </ion-nav-buttons>
+
   <ion-content>
     <!-- The content of the page -->
     <ul class="list">
-      <li class="item">
-        事项1
-      </li>
-      <li class="item">
-        事项2
+      <li class="item" ng-repeat="checkpoint in detail.checklist.checkpoints">
+        {{checkpoint}}
       </li>
     </ul>
   </ion-content>
+
+  <div class="tabs tabs-icon-only">
+    <a class="tab-item">
+      <i class="icon ion-home"></i>
+    </a>
+    <a class="tab-item">
+      <i class="icon ion-star"></i>
+    </a>
+    <a class="tab-item">
+      <i class="icon ion-gear-a"></i>
+    </a>
+  </div>
 </ion-view>

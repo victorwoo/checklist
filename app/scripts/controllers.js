@@ -20,7 +20,7 @@
     vm.activate = activate;
     vm.toggleEdit = toggleEdit;
     vm.add = add;
-    vm.moveItem = moveItem;
+    vm.moveChecklist = moveChecklist;
     vm.remove = remove;
 
     activate();
@@ -40,7 +40,7 @@
       $state.go('detail');
     }
 
-    function moveItem (item, fromIndex, toIndex) {
+    function moveChecklist (item, fromIndex, toIndex) {
       //Move the item in the array
       vm.checklists.splice(fromIndex, 1);
       vm.checklists.splice(toIndex, 0, item);
@@ -54,11 +54,36 @@
     }
   }
 
-  DetailCtrl.$inject = [];
+  DetailCtrl.$inject = ['$state','$stateParams', 'checklistRepo'];
 
   /* @ngInject */
-  function DetailCtrl(id) {
-    console.log('DetailCtrl()')
+  function DetailCtrl($state, $stateParams, checklistRepo) {
+    var id = parseInt($stateParams.id);
+
+    /* jshint validthis: true */
+    var vm = this;
+
+    vm.title = 'Checklist';
+    vm.isEditingName = false;
+
+    vm.activate = activate;
+
+    activate();
+
+    ////////////////
+
+    function activate() {
+      //checklistRepo.init();
+      var checklist = checklistRepo.getById(id);
+      if (!checklist) {
+        checklist = {
+          id: checklistRepo.nextChecklistId(),
+          name: '新建清单',
+          checkpoints: []
+        }
+      }
+      vm.checklist = checklist;
+    }
   }
 }());
 

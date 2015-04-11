@@ -7,18 +7,19 @@
     .factory('checklistRepo', checklistRepo);
 
   function checklistRepo(localStorageService) {
+    var checklists;
     var init = function () {
       localStorageService.set('checklists', [{
         id: 0,
         name: '出差',
-        items: [
+        checkpoints: [
           '身份证',
           '衣服'
         ]
       }, {
         id: 1,
-        name: '游泳',
-        items: [
+        name: '羽毛球',
+        checkpoints: [
           '球拍',
           '毛巾'
         ]
@@ -26,10 +27,14 @@
     };
 
     var loadAll = function () {
-      return localStorageService.get('checklists');
+      checklists = localStorageService.get('checklists');
+      return checklists;
     };
 
-    var saveAll = function (checklists) {
+    var saveAll = function (newChecklists) {
+      if (newChecklists) {
+        checklists = newChecklists;
+      }
       localStorageService.set('checklists', checklists);
     };
 
@@ -40,6 +45,18 @@
         return item.id === id;
       });
       return matched.length ? matched[0] : null;
+    };
+
+    var nextChecklistId = function() {
+      var maxId = 0,
+        checklists;
+      checklists = loadAll();
+      checklists.forEach(function(checklist){
+        if (checklist.id > maxId) {
+          maxId = checklist.id;
+        }
+      });
+      return maxId;
     };
 
     // TODO 还未测试
@@ -53,14 +70,7 @@
         });
       } else {
         // insert
-        var maxId = 0;
-        checklists.forEach(function(checklist){
-          if (checklist.id > maxId) {
-            maxId = checklist.id;
-          }
-        });
-        maxId++;
-        item.id = maxId;
+        item.id = nextChecklistId();
         checklists.unshift(item);
       }
       saveAll(checklists);
@@ -76,7 +86,8 @@
       saveAll: saveAll,
       getById: getById,
       save: save,
-      remove: remove
+      remove: remove,
+      nextChecklistId: nextChecklistId
     };
   }
 }());
