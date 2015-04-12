@@ -1,12 +1,29 @@
 <!-- The title of the ion-view will be shown on the navbar -->
-<ion-view view-title="{{detail.checklist.name}}">
+<ion-view view-title="{{detail.checklist.title}}">
 
+
+  <!--<ion-nav-title>-->
+  <!--&lt;!&ndash;{{list.title}}&ndash;&gt;-->
+  <!--<form ng-submit="detail.submitTitle()">-->
+  <!--<label class="item item-input" ng-show="detail.isEditingTitle" >-->
+  <!--<input type="text" placeholder="Name of Checklist" ng-model="detail.checklist.title" ng-blur="detail.submitTitle()">-->
+  <!--</label>-->
+  <!--</form>-->
+  <!--<h1 class="title" ng-show="!detail.isEditingTitle" ng-click="detail.isEditingTitle = true">{{detail.checklist.title}}</h1>-->
+  <!--</ion-nav-title>-->
   <ion-nav-title>
-    <!--{{list.title}}-->
-    <label class="item item-input" ng-show="detail.isEditingName">
-      <input type="text" placeholder="Name of Checklist" ng-model="detail.checklist.name">
-    </label>
-    <h1 class="title" ng-show="!detail.isEditingName" ng-click="detail.isEditingName = true">{{detail.checklist.name}}</h1>
+    <form ng-submit="detail.submitTitle()">
+      <div class="bar bar-header item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios7-search placeholder-icon"></i>
+          <input type="search" placeholder="Search">
+        </label>
+        <button class="button button-clear">
+          Cancel
+        </button>
+      </div>
+    </form>
+
   </ion-nav-title>
 
   <ion-nav-buttons side="primary">
@@ -21,11 +38,11 @@
   </ion-nav-buttons>
 
   <ion-content>
+
     <!-- The content of the page -->
     <ul class="list">
-      <li class="item" ng-repeat="checkpoint in detail.checklist.checkpoints">
-        {{checkpoint}}
-      </li>
+      <ion-checkbox ng-model="isChecked" ng-repeat="checkpoint in detail.checklist.checkpoints">{{checkpoint}}
+      </ion-checkbox>
     </ul>
   </ion-content>
 

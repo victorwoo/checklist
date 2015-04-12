@@ -11,14 +11,14 @@
     var init = function () {
       localStorageService.set('checklists', [{
         id: 0,
-        name: '出差',
+        title: '出差',
         checkpoints: [
           '身份证',
           '衣服'
         ]
       }, {
         id: 1,
-        name: '羽毛球',
+        title: '羽毛球',
         checkpoints: [
           '球拍',
           '毛巾'

@@ -63,9 +63,8 @@
     /* jshint validthis: true */
     var vm = this;
 
-    vm.title = 'Checklist';
-    vm.isEditingName = false;
-
+    vm.isEditingTitle = false; // TODO 设置焦点
+    vm.submitTitle = submitTitle;
     vm.activate = activate;
 
     activate();
@@ -78,11 +77,17 @@
       if (!checklist) {
         checklist = {
           id: checklistRepo.nextChecklistId(),
-          name: '新建清单',
+          title: '新建清单',
           checkpoints: []
         }
       }
       vm.checklist = checklist;
+    }
+
+    function submitTitle() {
+      // TODO 合法性判断，禁止提交相同名字的标题。
+      vm.isEditingTitle = false;
+      checklistRepo.saveAll();
     }
   }
 }());
