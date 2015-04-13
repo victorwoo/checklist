@@ -1,49 +1,22 @@
 <!-- The title of the ion-view will be shown on the navbar -->
 <ion-view view-title="{{detail.checklist.title}}">
 
-
-  <!--<ion-nav-title>-->
-  <!--&lt;!&ndash;{{list.title}}&ndash;&gt;-->
-  <!--<form ng-submit="detail.submitTitle()">-->
-  <!--<label class="item item-input" ng-show="detail.isEditingTitle" >-->
-  <!--<input type="text" placeholder="Name of Checklist" ng-model="detail.checklist.title" ng-blur="detail.submitTitle()">-->
-  <!--</label>-->
-  <!--</form>-->
-  <!--<h1 class="title" ng-show="!detail.isEditingTitle" ng-click="detail.isEditingTitle = true">{{detail.checklist.title}}</h1>-->
-  <!--</ion-nav-title>-->
-  <ion-nav-title>
-    <form ng-submit="detail.submitTitle()">
-      <div class="bar bar-header item-input-inset">
-        <label class="item-input-wrapper">
-          <i class="icon ion-ios7-search placeholder-icon"></i>
-          <input type="search" placeholder="Search">
-        </label>
-        <button class="button button-clear">
-          Cancel
-        </button>
-      </div>
-    </form>
-
-  </ion-nav-title>
-
-  <ion-nav-buttons side="primary">
-    <button class="button" ng-click="list.toggleEdit()">
+  <!--编辑按钮-->
+  <ion-nav-buttons side="secondary">
+    <button class="button" ng-click="detail.edit()">
       Edit
     </button>
   </ion-nav-buttons>
-  <ion-nav-buttons side="secondary">
-    <button class="button" ng-click="list.add()">
-      Add
-    </button>
-  </ion-nav-buttons>
 
+  <!--页面内容-->
   <ion-content>
 
-    <!-- The content of the page -->
-    <ul class="list">
-      <ion-checkbox ng-model="isChecked" ng-repeat="checkpoint in detail.checklist.checkpoints">{{checkpoint}}
+    <!--列表-->
+    <ion-list>
+      <ion-checkbox ng-model="checkpoint.isDone" ng-repeat="checkpoint in detail.checklist.checkpoints">
+        {{checkpoint.title}}
       </ion-checkbox>
-    </ul>
+    </ion-list>
   </ion-content>
 
   <div class="tabs tabs-icon-only">

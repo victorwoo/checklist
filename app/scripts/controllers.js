@@ -5,7 +5,8 @@
   angular
     .module('starter')
     .controller('ListCtrl', ListCtrl)
-    .controller('DetailCtrl', DetailCtrl);
+    .controller('DetailCtrl', DetailCtrl)
+    .controller('EditCtrl', EditCtrl);
 
   ListCtrl.$inject = ['$state', 'checklistRepo'];
 
@@ -64,8 +65,8 @@
     var vm = this;
 
     vm.isEditingTitle = false; // TODO 设置焦点
-    vm.submitTitle = submitTitle;
     vm.activate = activate;
+    vm.edit = edit;
 
     activate();
 
@@ -73,6 +74,32 @@
 
     function activate() {
       //checklistRepo.init();
+      vm.checklist = checklistRepo.getById(id);
+    }
+
+    function edit() {
+      $state.go('edit', {id: id});
+    }
+  }
+
+  EditCtrl.$inject = ['$state','$stateParams', 'checklistRepo'];
+
+  /* @ngInject */
+  function EditCtrl($state, $stateParams, checklistRepo) {
+    var id = parseInt($stateParams.id);
+
+    /* jshint validthis: true */
+    var vm = this;
+    vm.submitTitle = submitTitle;
+
+    vm.activate = activate;
+    vm.toggleReorder = toggleReorder;
+
+    activate();
+
+    ////////////////
+
+    function activate() {
       var checklist = checklistRepo.getById(id);
       if (!checklist) {
         checklist = {
@@ -84,10 +111,15 @@
       vm.checklist = checklist;
     }
 
+    // 整个要改
     function submitTitle() {
       // TODO 合法性判断，禁止提交相同名字的标题。
       vm.isEditingTitle = false;
       checklistRepo.saveAll();
+    }
+
+    function toggleReorder(){
+      vm.isReordering = !vm.isReordering;
     }
   }
 }());

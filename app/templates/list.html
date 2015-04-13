@@ -15,10 +15,11 @@
   </ion-nav-title>
   <ion-content>
     <!-- The content of the page -->
-    <ion-list show-reorder="list.isEditing" class="item-remove-animate">
+    <ion-list show-delete="list.isEditing" show-reorder="list.isEditing" class="item-remove-animate">
       <ion-item ng-repeat="checklist in list.checklists" item="checklist" href="#/detail/{{$index}}">
         {{checklist.title}}
         <ion-option-button class="button-assertive" ng-click="list.remove(checklist)">Remove</ion-option-button>
+        <ion-delete-button class="ion-minus-circled"></ion-delete-button>
         <ion-reorder-button class="ion-navicon" on-reorder="console.log(1);list.moveChecklist(checklist, $fromIndex, $toIndex)"></ion-reorder-button>
       </ion-item>
     </ion-list>

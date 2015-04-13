@@ -30,11 +30,15 @@ angular.module('starter', ['ionic', 'LocalStorageModule'])
         templateUrl: "templates/list.html",
         controller: "ListCtrl as list"
       })
-      // Each tab has its own nav history stack:
       .state('detail', {
         url: '/detail/:id',
         templateUrl: "/templates/detail.html",
         controller: "DetailCtrl as detail"
+      })
+      .state('edit', {
+        url: '/edit/:id',
+        templateUrl: "/templates/edit.html",
+        controller: "EditCtrl as edit"
       });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/');

@@ -13,15 +13,15 @@
         id: 0,
         title: '出差',
         checkpoints: [
-          '身份证',
-          '衣服'
+          {title: '身份证', isDone: false},
+          {title: '衣服', isDone: true}
         ]
       }, {
         id: 1,
         title: '羽毛球',
         checkpoints: [
-          '球拍',
-          '毛巾'
+          {title: '球拍', isDone: true},
+          {title: '毛巾', isDone: false}
         ]
       }]);
     };
@@ -47,11 +47,11 @@
       return matched.length ? matched[0] : null;
     };
 
-    var nextChecklistId = function() {
+    var nextChecklistId = function () {
       var maxId = 0,
         checklists;
       checklists = loadAll();
-      checklists.forEach(function(checklist){
+      checklists.forEach(function (checklist) {
         if (checklist.id > maxId) {
           maxId = checklist.id;
         }
@@ -65,7 +65,7 @@
       checklists = loadAll();
       if (item.id !== null && item.id !== undefined) {
         // update
-        checklists = checklists.map(function(checklist) {
+        checklists = checklists.map(function (checklist) {
           return checklist.id === item.id ? item : checklist;
         });
       } else {
