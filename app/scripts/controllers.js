@@ -82,10 +82,10 @@
     }
   }
 
-  EditCtrl.$inject = ['$state','$stateParams', 'checklistRepo'];
+  EditCtrl.$inject = ['$scope', '$state','$stateParams', '$ionicModal', 'checklistRepo'];
 
   /* @ngInject */
-  function EditCtrl($state, $stateParams, checklistRepo) {
+  function EditCtrl($scope, $state, $stateParams, $ionicModal, checklistRepo) {
     var id = parseInt($stateParams.id);
 
     /* jshint validthis: true */
@@ -94,6 +94,7 @@
 
     vm.activate = activate;
     vm.toggleReorder = toggleReorder;
+    vm.enterEdit = enterEdit;
 
     activate();
 
@@ -109,7 +110,37 @@
         }
       }
       vm.checklist = checklist;
+
+
+      $ionicModal.fromTemplateUrl('templates/edit-checkpoint-title.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modal = modal;
+      });
+      $scope.openModal = function() {
+        $scope.modal.show();
+      };
+      $scope.closeModal = function() {
+        $scope.modal.hide();
+      };
+      //Cleanup the modal when we're done with it!
+      $scope.$on('$destroy', function() {
+        $scope.modal.remove();
+      });
+      // Execute action on hide modal
+      $scope.$on('modal.hidden', function() {
+        // Execute action
+      });
+      // Execute action on remove modal
+      $scope.$on('modal.removed', function() {
+        // Execute action
+      });
     }
+
+    $scope.updateCheckpoint = function(checkpoint) {
+      console.log(checkpoint);
+    };
 
     // 整个要改
     function submitTitle() {
@@ -120,6 +151,12 @@
 
     function toggleReorder(){
       vm.isReordering = !vm.isReordering;
+    }
+
+    function enterEdit(checkpoint) {
+      console.log(checkpoint);
+      $scope.editingCheckpoint = checkpoint;
+      $scope.openModal();
     }
   }
 }());
