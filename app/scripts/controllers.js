@@ -110,36 +110,40 @@
         }
       }
       vm.checklist = checklist;
+      initModal();
 
-
-      $ionicModal.fromTemplateUrl('templates/edit-checkpoint-title.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-      }).then(function(modal) {
-        $scope.modal = modal;
-      });
-      $scope.openModal = function() {
-        $scope.modal.show();
-      };
-      $scope.closeModal = function() {
-        $scope.modal.hide();
-      };
-      //Cleanup the modal when we're done with it!
-      $scope.$on('$destroy', function() {
-        $scope.modal.remove();
-      });
-      // Execute action on hide modal
-      $scope.$on('modal.hidden', function() {
-        // Execute action
-      });
-      // Execute action on remove modal
-      $scope.$on('modal.removed', function() {
-        // Execute action
-      });
+      // 初始化模态框设置。
+      function initModal() {
+        $ionicModal.fromTemplateUrl('templates/edit-checkpoint-title.html', {
+          scope: $scope,
+          animation: 'slide-in-up'
+        }).then(function (modal) {
+          vm.modal = modal;
+        });
+        vm.openModal = function () {
+          vm.modal.show();
+        };
+        vm.closeModal = function () {
+          vm.modal.hide();
+        };
+        //Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function () {
+          vm.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hidden', function () {
+          // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function () {
+          // Execute action
+        });
+      }
     }
 
-    $scope.updateCheckpoint = function(checkpoint) {
+    vm.updateCheckpoint = function(checkpoint) {
       console.log(checkpoint);
+      vm.modal.hide();
     };
 
     // 整个要改
@@ -155,8 +159,8 @@
 
     function enterEdit(checkpoint) {
       console.log(checkpoint);
-      $scope.editingCheckpoint = checkpoint;
-      $scope.openModal();
+      vm.editingCheckpoint = checkpoint;
+      vm.openModal();
     }
   }
 }());

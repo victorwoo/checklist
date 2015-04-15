@@ -1,15 +1,15 @@
 <ion-modal-view>
   <ion-header-bar class="bar bar-header bar-positive">
     <h1 class="title">Edit Checkpoint</h1>
-    <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+    <button class="button button-clear button-primary" ng-click="vm.modal.hide()">Cancel</button>
   </ion-header-bar>
   <ion-content class="padding">
     <div class="list">
       <label class="item item-input">
         <span class="input-label">checkpoint</span>
-        <input ng-model="editingCheckpoint.title" type="text">
+        <input ng-model="vm.editingCheckpoint.title" type="text">
       </label>
-      <button class="button button-full button-positive" ng-click="updateCheckpoint(editingCheckpoint)">Update</button>
+      <button class="button button-full button-positive" ng-click="vm.updateCheckpoint(editingCheckpoint)">Update</button>
     </div>
   </ion-content>
 </ion-modal-view>
