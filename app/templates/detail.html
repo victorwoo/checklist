@@ -1,22 +1,59 @@
 <!-- The title of the ion-view will be shown on the navbar -->
 <ion-view view-title="{{detail.checklist.title}}">
 
-  <!--编辑按钮-->
   <ion-nav-buttons side="secondary">
-    <button class="button" ng-click="detail.edit()">
-      Edit
+    <!--编辑按钮-->
+    <button class="button" ng-click="detail.toggleEdit()">
+      {{detail.isEditing ? 'Done' : 'Edit'}}
+    </button>
+
+    <!--加项按钮-->
+    <button class="button" ng-click="detail.toggledeleteAndReorder()" ng-if="detail.isEditing">
+      Reorder
     </button>
   </ion-nav-buttons>
 
   <!--页面内容-->
   <ion-content>
 
-    <!--列表-->
-    <ion-list>
+    <!--列表（日常使用）-->
+    <ion-list ng-if="!detail.isEditing">
       <ion-checkbox ng-model="checkpoint.isDone" ng-repeat="checkpoint in detail.checklist.checkpoints">
         {{checkpoint.title}}
       </ion-checkbox>
     </ion-list>
+
+    <!--列表（编辑状态）-->
+    <div class="list" ng-if="detail.isEditing && !detail.isDeletingAndReordering">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="New checkpoint" ng-model="detail.newCheckpointTitle">
+        </label>
+        <button class="button button-small" ng-click="detail.addCheckpoint(detail.newCheckpointTitle)">
+          Add
+        </button>
+      </div>
+      <label class="item item-input" ng-repeat="checkpoint in detail.checklist.checkpoints">
+        <input type="text" placeholder="Title" ng-model="checkpoint.title">
+      </label>
+    </div>
+
+    <ion-list ng-if="detail.isEditing && detail.isDeletingAndReordering"
+              show-delete="true"
+              show-reorder="true">
+      <ion-item ng-repeat="checkpoint in detail.checklist.checkpoints" item="checkpoint">
+        {{checkpoint.title}}
+        <!--删除按钮-->
+        <ion-delete-button class="ion-minus-circled"
+                           ng-click="detail.checklist.checkpoints.splice($index, 1)">
+        </ion-delete-button>
+        <!--排序按钮-->
+        <ion-reorder-button class="ion-navicon"
+                            on-reorder="detail.reorderCheckpoint(checkpoint, $fromIndex, $toIndex)">
+        </ion-reorder-button>
+      </ion-item>
+    </ion-list>
+
   </ion-content>
 
   <div class="tabs tabs-icon-only">

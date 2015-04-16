@@ -5,8 +5,7 @@
   angular
     .module('starter')
     .controller('ListCtrl', ListCtrl)
-    .controller('DetailCtrl', DetailCtrl)
-    .controller('EditCtrl', EditCtrl);
+    .controller('DetailCtrl', DetailCtrl);
 
   ListCtrl.$inject = ['$state', 'checklistRepo'];
 
@@ -66,7 +65,12 @@
 
     vm.isEditingTitle = false; // TODO 设置焦点
     vm.activate = activate;
-    vm.edit = edit;
+    vm.toggleEdit = toggleEdit;
+    vm.toggledeleteAndReorder = toggledeleteAndReorder;
+    vm.reorderCheckpoint = reorderCheckpoint;
+    vm.addCheckpoint = addCheckpoint;
+    vm.isDeletingAndReordering = false;
+    vm.newCheckpointTitle = '';
 
     activate();
 
@@ -77,91 +81,25 @@
       vm.checklist = checklistRepo.getById(id);
     }
 
-    function edit() {
-      $state.go('edit', {id: id});
-    }
-  }
-
-  EditCtrl.$inject = ['$scope', '$state','$stateParams', '$ionicModal', 'checklistRepo'];
-
-  /* @ngInject */
-  function EditCtrl($scope, $state, $stateParams, $ionicModal, checklistRepo) {
-    var id = parseInt($stateParams.id);
-
-    /* jshint validthis: true */
-    var vm = this;
-    vm.submitTitle = submitTitle;
-
-    vm.activate = activate;
-    vm.toggleReorder = toggleReorder;
-    vm.enterEdit = enterEdit;
-
-    activate();
-
-    ////////////////
-
-    function activate() {
-      var checklist = checklistRepo.getById(id);
-      if (!checklist) {
-        checklist = {
-          id: checklistRepo.nextChecklistId(),
-          title: '新建清单',
-          checkpoints: []
-        }
-      }
-      vm.checklist = checklist;
-      initModal();
-
-      // 初始化模态框设置。
-      function initModal() {
-        $ionicModal.fromTemplateUrl('templates/edit-checkpoint-title.html', {
-          scope: $scope,
-          animation: 'slide-in-up'
-        }).then(function (modal) {
-          vm.modal = modal;
-        });
-        vm.openModal = function () {
-          vm.modal.show();
-        };
-        vm.closeModal = function () {
-          vm.modal.hide();
-        };
-        //Cleanup the modal when we're done with it!
-        $scope.$on('$destroy', function () {
-          vm.modal.remove();
-        });
-        // Execute action on hide modal
-        $scope.$on('modal.hidden', function () {
-          // Execute action
-        });
-        // Execute action on remove modal
-        $scope.$on('modal.removed', function () {
-          // Execute action
-        });
-      }
+    function toggleEdit() {
+      vm.isEditing = !vm.isEditing;
     }
 
-    vm.updateCheckpoint = function(checkpoint) {
-      console.log(checkpoint);
-      vm.modal.hide();
-    };
-
-    // 整个要改
-    function submitTitle() {
-      // TODO 合法性判断，禁止提交相同名字的标题。
-      vm.isEditingTitle = false;
-      checklistRepo.saveAll();
+    function toggledeleteAndReorder() {
+      vm.isDeletingAndReordering = !vm.isDeletingAndReordering;
     }
 
-    function toggleReorder(){
-      vm.isReordering = !vm.isReordering;
+    function reorderCheckpoint(checkpoint, fromIndex, toIndex) {
+      vm.checklist.checkpoints.splice(fromIndex, 1);
+      vm.checklist.checkpoints.splice(toIndex, 0, checkpoint);
     }
 
-    function enterEdit(checkpoint) {
-      console.log(checkpoint);
-      vm.editingCheckpoint = checkpoint;
-      vm.openModal();
+    function addCheckpoint(title){
+      vm.checklist.checkpoints.unshift({
+        title: title,
+        isDone: false
+      });
+      vm.newCheckpointTitle = '';
     }
   }
 }());
-
