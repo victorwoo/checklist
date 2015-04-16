@@ -72,9 +72,9 @@
   </ion-content>
 
   <div class="tabs tabs-icon-top">
-    <a class="tab-item" ng-click="detail.reuse()">
+    <a class="tab-item" ng-if="!detail.isEditing" ng-click="detail.reuse()">
       <i class="icon ion-refresh"></i>
-      Reset
+      Reuse
     </a>
     <a class="tab-item" ng-if="detail.isEditing">
       <i class="icon ion-navicon"></i>
