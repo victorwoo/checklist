@@ -63,12 +63,14 @@
     /* jshint validthis: true */
     var vm = this;
 
-    vm.isEditingTitle = false; // TODO 设置焦点
+
     vm.activate = activate;
     vm.toggleEdit = toggleEdit;
     vm.toggledeleteAndReorder = toggledeleteAndReorder;
     vm.reorderCheckpoint = reorderCheckpoint;
     vm.addCheckpoint = addCheckpoint;
+    vm.reuse = reuse;
+
     vm.isDeletingAndReordering = false;
     vm.newCheckpointTitle = '';
 
@@ -77,12 +79,21 @@
     ////////////////
 
     function activate() {
-      //checklistRepo.init();
       vm.checklist = checklistRepo.getById(id);
+      if (vm.checklist) {
+        vm.isEditing = false;
+      } else {
+        vm.isEditing = true;
+        vm.checklist = {
+          title: '',
+          checkpoints : []
+        }
+      }
     }
 
     function toggleEdit() {
       vm.isEditing = !vm.isEditing;
+      vm.isDeletingAndReordering = false;
     }
 
     function toggledeleteAndReorder() {
@@ -99,7 +110,14 @@
         title: title,
         isDone: false
       });
+      checklistRepo.saveAll();
       vm.newCheckpointTitle = '';
+    }
+
+    function reuse() {
+      vm.checklist.checkpoints.forEach(function(checkpoint){
+        checkpoint.isDone = false;
+      });
     }
   }
 }());

@@ -1,17 +1,30 @@
-<!-- The title of the ion-view will be shown on the navbar -->
-<ion-view view-title="{{detail.checklist.title}}">
+<ion-view>
 
+  <!--标题栏按钮-->
   <ion-nav-buttons side="secondary">
     <!--编辑按钮-->
-    <button class="button" ng-click="detail.toggleEdit()">
+    <button class="button button-positive button-clear" ng-click="detail.toggleEdit()">
       {{detail.isEditing ? 'Done' : 'Edit'}}
     </button>
 
-    <!--加项按钮-->
-    <button class="button" ng-click="detail.toggledeleteAndReorder()" ng-if="detail.isEditing">
-      Reorder
-    </button>
+    <!--&lt;!&ndash;排序按钮&ndash;&gt;-->
+    <!--<button class="button button-outline ion-navicon" ng-click="detail.toggledeleteAndReorder()" ng-if="detail.isEditing"></button>-->
+
   </ion-nav-buttons>
+
+  <!--标题栏-->
+  <ion-nav-title>
+    <div class="bar bar-header item-input-inset" ng-if="detail.isEditing && !detail.isDeletingAndReordering">
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios7-search placeholder-icon"></i>
+        <input type="search" placeholder="Search" ng-model="detail.checklist.title">
+      </label>
+    </div>
+
+    <div ng-if="!detail.isEditing || detail.isEditing && detail.isDeletingAndReordering">
+      {{detail.checklist.title}}
+    </div>
+  </ion-nav-title>
 
   <!--页面内容-->
   <ion-content>
@@ -27,6 +40,7 @@
     <div class="list" ng-if="detail.isEditing && !detail.isDeletingAndReordering">
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
+          <i class="icon ion-plus-round placeholder-icon"></i>
           <input type="text" placeholder="New checkpoint" ng-model="detail.newCheckpointTitle">
         </label>
         <button class="button button-small" ng-click="detail.addCheckpoint(detail.newCheckpointTitle)">
@@ -38,6 +52,7 @@
       </label>
     </div>
 
+    <!--列表（排序状态）-->
     <ion-list ng-if="detail.isEditing && detail.isDeletingAndReordering"
               show-delete="true"
               show-reorder="true">
@@ -56,15 +71,14 @@
 
   </ion-content>
 
-  <div class="tabs tabs-icon-only">
-    <a class="tab-item">
-      <i class="icon ion-home"></i>
+  <div class="tabs tabs-icon-top">
+    <a class="tab-item" ng-click="detail.reuse()">
+      <i class="icon ion-refresh"></i>
+      Reset
     </a>
-    <a class="tab-item">
-      <i class="icon ion-star"></i>
-    </a>
-    <a class="tab-item">
-      <i class="icon ion-gear-a"></i>
+    <a class="tab-item" ng-if="detail.isEditing">
+      <i class="icon ion-navicon"></i>
+      Reorder
     </a>
   </div>
 </ion-view>
