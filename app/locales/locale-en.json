@@ -1,0 +1,14 @@
+{
+  "CHECKLIST": "Checklist",
+  "CHECKPOINT": "Checkpoint",
+  "EDIT": "Edit",
+  "ADD": "Add",
+  "REMOVE": "Remove",
+  "BACK": "Back",
+  "DONE": "Done",
+  "CHECKLIST_TITLE": "Checklist Title",
+  "NEW_CHECKPOINT": "New Checkpoint",
+  "REUSE": "Reuse",
+  "CANCEL": "Cancel",
+  "REUSE_DETAILED": "Clear Finished Flags and Restart"
+}

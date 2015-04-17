@@ -1,0 +1,83 @@
+<ion-view>
+
+  <!--标题栏按钮-->
+  <ion-nav-buttons side="secondary">
+    <!--编辑按钮-->
+    <button class="button" ng-click="detail.edit()" ng-if="!detail.isEditing">
+      {{ 'EDIT' | translate }}
+    </button>
+
+    <!--排序按钮-->
+    <button class="button ion-navicon" ng-click="detail.toggleDeleteAndReorder()" ng-if="detail.isEditing"></button>
+
+  </ion-nav-buttons>
+
+  <!--标题栏-->
+  <ion-nav-title>
+    <div class="bar bar-header item-input-inset" ng-if="detail.isEditing && !detail.isDeletingAndReordering">
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios7-search placeholder-icon"></i>
+        <input type="search" placeholder="{{ 'CHECKLIST_TITLE' | translate }}" ng-model="detail.checklist.title">
+      </label>
+    </div>
+
+    <div ng-if="!detail.isEditing || detail.isEditing && detail.isDeletingAndReordering">
+      {{detail.checklist.title}}
+    </div>
+  </ion-nav-title>
+
+  <!--页面内容-->
+  <ion-content>
+
+    <!--列表（日常使用）-->
+    <ion-list ng-if="!detail.isEditing">
+      <ion-checkbox ng-model="checkpoint.isDone"
+                    ng-repeat="checkpoint in detail.checklist.checkpoints | orderBy: 'isDone'"
+                    ng-class="{'done': checkpoint.isDone}"
+                    ng-click="detail.toggleCheck(checkpoint)">
+        <span>{{checkpoint.title}}</span>
+      </ion-checkbox>
+    </ion-list>
+
+    <!--列表（编辑状态）-->
+    <div class="list" ng-if="detail.isEditing && !detail.isDeletingAndReordering">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-plus-round placeholder-icon"></i>
+          <input type="text" placeholder="{{ 'NEW_CHECKPOINT' | translate }}" ng-model="detail.newCheckpointTitle">
+        </label>
+        <button class="button button-small" ng-click="detail.addCheckpoint(detail.newCheckpointTitle)">
+          {{ 'ADD' | translate }}
+        </button>
+      </div>
+      <label class="item item-input" ng-repeat="checkpoint in detail.checklist.checkpoints">
+        <input type="text" placeholder="{{ 'CHECKPOINT' | translate }}" ng-model="checkpoint.title">
+      </label>
+    </div>
+
+    <!--列表（排序状态）-->
+    <ion-list ng-if="detail.isEditing && detail.isDeletingAndReordering"
+              show-delete="true"
+              show-reorder="true">
+      <ion-item ng-repeat="checkpoint in detail.checklist.checkpoints" item="checkpoint">
+        {{checkpoint.title}}
+        <!--删除按钮-->
+        <ion-delete-button class="ion-minus-circled"
+                           ng-click="detail.checklist.checkpoints.splice($index, 1)">
+        </ion-delete-button>
+        <!--排序按钮-->
+        <ion-reorder-button class="ion-navicon"
+                            on-reorder="detail.reorderCheckpoint(checkpoint, $fromIndex, $toIndex)">
+        </ion-reorder-button>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+
+  <div class="tabs tabs-icon-top" ng-if="!detail.isEditing" >
+    <a class="tab-item" ng-click="detail.reuse()">
+      <i class="icon ion-refresh"></i>
+      {{ 'REUSE' | translate }}
+    </a>
+  </div>
+</ion-view>

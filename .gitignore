@@ -260,9 +260,10 @@ bower_components
 
 node_modules
 www
+.idea
 .tmp
 .sass-cache
-app/lib
+app/bower_components
 coverage
 platforms
 plugins
@@ -272,3 +273,7 @@ plugins
 *.DS_Store
 
 app/scripts/config.js
+
+#############
+# custom
+.temp/

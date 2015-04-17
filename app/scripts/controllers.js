@@ -1,24 +1,171 @@
-'use strict';
-angular.module('CheckList.controllers', [])
+/**
+ * Created by Victor on 2015/4/10.
+ */
+(function () {
+  angular
+    .module('starter')
+    .controller('ListCtrl', ListCtrl)
+    .controller('DetailCtrl', DetailCtrl);
 
-.controller('DashCtrl', function($scope) {
-})
+  ListCtrl.$inject = ['$rootScope', '$state', 'checklistRepo', '$translate'];
 
-.controller('FriendsCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
-})
+  /* @ngInject */
+  function ListCtrl($rootScope, $state, checklistRepo, $translate) {
+    /* jshint validthis: true */
+    var vm = this;
 
-.controller('TemplatesCtrl', function($scope, Templates) {
-  $scope.templates = Templates.all();
-})
+    vm.title = 'Checklist';
+    vm.isEditing = false;
 
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  $scope.friend = Friends.get($stateParams.friendId);
-})
+    vm.activate = activate;
+    vm.toggleEdit = toggleEdit;
+    vm.add = add;
+    vm.moveChecklist = moveChecklist;
+    vm.remove = remove;
 
-.controller('TemplateDetailCtrl', function($scope, $stateParams, Templates) {
-  $scope.template = Templates.get($stateParams.templateId);
-})
+    activate();
 
-.controller('AccountCtrl', function($scope) {
-});
+    ////////////////
+
+    function activate() {
+      //checklistRepo.init();
+      vm.checklists = checklistRepo.loadAll();
+    }
+
+    function toggleEdit() {
+      vm.isEditing = !vm.isEditing;
+    }
+
+    function add() {
+      $state.go('detail');
+    }
+
+    function moveChecklist(item, fromIndex, toIndex) {
+      //Move the item in the array
+      vm.checklists.splice(fromIndex, 1);
+      vm.checklists.splice(toIndex, 0, item);
+      checklistRepo.saveAll(vm.checklists);
+    }
+
+    function remove(item) {
+      var index = vm.checklists.indexOf(item);
+      vm.checklists.splice(index, 1);
+      checklistRepo.saveAll(vm.checklists);
+    }
+  }
+
+  DetailCtrl.$inject = ['$scope', '$rootScope', '$stateParams', '$ionicActionSheet', '$translate', 'checklistRepo'];
+
+  /* @ngInject */
+  function DetailCtrl($scope, $rootScope, $stateParams, $ionicActionSheet, $translate, checklistRepo) {
+    var id = parseInt($stateParams.id);
+
+    /* jshint validthis: true */
+    var vm = this,
+      currentTranslations;
+
+
+    vm.activate = activate;
+    vm.edit = edit;
+    vm.toggleDeleteAndReorder = toggleDeleteAndReorder;
+    vm.reorderCheckpoint = reorderCheckpoint;
+    vm.addCheckpoint = addCheckpoint;
+    vm.reuse = reuse;
+    vm.toggleCheck = toggleCheck;
+
+    activate();
+
+    ////////////////
+
+    function updateTranslations(callback) {
+      $translate(['REUSE', 'CANCEL', 'REUSE_DETAILED']).then(function (translations) {
+        currentTranslations = translations;
+        if (callback) {
+          callback();
+        }
+      });
+    }
+
+    function activate() {
+      vm.isDeletingAndReordering = false;
+      vm.newCheckpointTitle = '';
+
+      vm.checklist = checklistRepo.getById(id);
+      if (vm.checklist) {
+        vm.isEditing = false;
+      } else {
+        vm.isEditing = true;
+        vm.checklist = {
+          title: '',
+          checkpoints: []
+        }
+      }
+
+      $scope.$on('$ionicView.leave', function () {
+        checklistRepo.saveAll();
+      });
+
+      $rootScope.$on('$translateChangeSuccess', function () {
+        updateTranslations();
+      });
+
+      updateTranslations(function () {
+        console.log('updateTranslations');
+      });
+    }
+
+    function edit() {
+      vm.isEditing = !vm.isEditing;
+      vm.isDeletingAndReordering = false;
+    }
+
+    function toggleDeleteAndReorder() {
+      if (vm.isDeletingAndReordering) {
+        checklistRepo.saveAll();
+      }
+      vm.isDeletingAndReordering = !vm.isDeletingAndReordering;
+    }
+
+    function reorderCheckpoint(checkpoint, fromIndex, toIndex) {
+      vm.checklist.checkpoints.splice(fromIndex, 1);
+      vm.checklist.checkpoints.splice(toIndex, 0, checkpoint);
+
+      checklistRepo.saveAll();
+    }
+
+    function addCheckpoint(title) {
+      vm.checklist.checkpoints.unshift({
+        title: title,
+        isDone: false
+      });
+      checklistRepo.saveAll();
+      vm.newCheckpointTitle = '';
+    }
+
+    function reuse() {
+      // Show the action sheet
+      var hideSheet = $ionicActionSheet.show({
+        buttons: [
+          {text: currentTranslations.REUSE}
+        ],
+        titleText: currentTranslations.REUSE_DETAILED,
+        cancelText: currentTranslations.CANCEL,
+        buttonClicked: function (index) {
+          console.log(index);
+          switch (index) {
+            case 0:
+              vm.checklist.checkpoints.forEach(function (checkpoint) {
+                checkpoint.isDone = false;
+              });
+              break;
+          }
+          return true;
+        }
+      });
+    } // of reuse();
+
+    function toggleCheck(checkpoint){
+      checklistRepo.saveAll();
+    }
+  } // of DetailCtrl();
+}());

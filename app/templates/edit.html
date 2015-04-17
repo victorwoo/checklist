@@ -1,0 +1,65 @@
+<!-- The title of the ion-view will be shown on the navbar -->
+<ion-view view-title="{{detail.checklist.title}}">
+
+  <!--标题栏（修改标题）-->
+  <ion-nav-title>
+    <form ng-submit="edit.submitTitle()">
+      <div class="bar bar-header item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios7-search placeholder-icon"></i>
+          <input type="search" placeholder="Title" ng-model="edit.checklist.title">
+        </label>
+        <button class="button button-clear">
+          OK
+        </button>
+      </div>
+    </form>
+
+  </ion-nav-title>
+
+  <ion-nav-buttons side="secondary">
+    <button class="button icon ion-navicon" ng-click="edit.toggleReorder()"></button>
+  </ion-nav-buttons>
+
+  <ion-content>
+
+    <!--<div class="list">-->
+      <!--<label class="item item-input">-->
+        <!--<input type="text" placeholder="First Name">-->
+      <!--</label>-->
+      <!--<label class="item item-input">-->
+        <!--<input type="text" placeholder="Last Name">-->
+      <!--</label>-->
+      <!--<label class="item item-input">-->
+        <!--<textarea placeholder="Comments"></textarea>-->
+      <!--</label>-->
+    <!--</div>-->
+    <!-- The content of the page -->
+    <ion-list show-delete="false" show-reorder="edit.isReordering" class="item-remove-animate">
+
+      <ion-item class="item item-input" ng-repeat="checkpoint in edit.checklist.checkpoints" ng-click="edit.enterEdit(checkpoint)">
+        <!--<label class="item item-input">-->
+          <!--<input type="text" placeholder="First Name">-->
+        <!--</label>-->
+        {{checkpoint.title}}
+
+        <ion-option-button class="button-assertive" ng-click="list.remove(checklist)">Remove</ion-option-button>
+        <ion-delete-button class="ion-minus-circled"></ion-delete-button>
+        <ion-reorder-button class="ion-navicon"
+                            on-reorder="console.log(1);detail.moveCheckpoint(checkpoint, $fromIndex, $toIndex)"></ion-reorder-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+  <div class="tabs tabs-icon-only">
+    <a class="tab-item">
+      <i class="icon ion-home"></i>
+    </a>
+    <a class="tab-item">
+      <i class="icon ion-star"></i>
+    </a>
+    <a class="tab-item">
+      <i class="icon ion-gear-a"></i>
+    </a>
+  </div>
+</ion-view>
