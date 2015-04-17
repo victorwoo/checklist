@@ -1,1 +1,5 @@
 /* Empty. Add your own CSS if you like */
+.done {
+  color: gray;
+  text-decoration: line-through;
+}

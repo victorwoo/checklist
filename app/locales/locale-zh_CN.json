@@ -7,5 +7,8 @@
   "BACK": "后退",
   "DONE": "完成",
   "CHECKLIST_TITLE": "清单标题",
-  "NEW_CHECKPOINT": "新增待办事项"
+  "NEW_CHECKPOINT": "新增待办事项",
+  "REUSE": "重新开始",
+  "CANCEL": "取消",
+  "REUSE_DETAILED": "清除完成状态并重新开始"
 }

@@ -14,7 +14,9 @@
         title: '出差',
         checkpoints: [
           {title: '身份证', isDone: false},
-          {title: '衣服', isDone: true}
+          {title: '衣服', isDone: true},
+          {title: '会员卡', isDone: false},
+          {title: '充电器', isDone: true}
         ]
       }, {
         id: 1,
@@ -26,28 +28,40 @@
       }]);
     };
 
-    var loadAll = function () {
-      checklists = localStorageService.get('checklists');
-      return checklists;
+    return {
+      init: init,
+      loadAll: loadAll,
+      saveAll: saveAll,
+      getById: getById,
+      save: save,
+      remove: remove,
+      nextChecklistId: nextChecklistId
     };
 
-    var saveAll = function (newChecklists) {
+    ////////////////////////////////////
+
+    function loadAll () {
+      checklists = localStorageService.get('checklists');
+      return checklists;
+    }
+
+    function saveAll (newChecklists) {
       if (newChecklists) {
         checklists = newChecklists;
       }
       localStorageService.set('checklists', checklists);
-    };
+    }
 
-    var getById = function (id) {
+    function getById (id) {
       var checklists, matched;
       checklists = loadAll();
       matched = checklists.filter(function (item) {
         return item.id === id;
       });
       return matched.length ? matched[0] : null;
-    };
+    }
 
-    var nextChecklistId = function () {
+    function nextChecklistId () {
       var maxId = 0,
         checklists;
       checklists = loadAll();
@@ -57,10 +71,10 @@
         }
       });
       return maxId;
-    };
+    }
 
     // TODO 还未测试
-    var save = function (item) {
+    function save (item) {
       var checklists, matched;
       checklists = loadAll();
       if (item.id !== null && item.id !== undefined) {
@@ -74,20 +88,10 @@
         checklists.unshift(item);
       }
       saveAll(checklists);
-    };
+    }
 
-    var remove = function (item) {
+    function remove(item) {
 
-    };
-
-    return {
-      init: init,
-      loadAll: loadAll,
-      saveAll: saveAll,
-      getById: getById,
-      save: save,
-      remove: remove,
-      nextChecklistId: nextChecklistId
-    };
+    }
   }
 }());

@@ -1,7 +1,7 @@
 /**
  * Created by Victor on 2015/4/10.
  */
-(function(){
+(function () {
   angular
     .module('starter')
     .controller('ListCtrl', ListCtrl)
@@ -11,7 +11,6 @@
 
   /* @ngInject */
   function ListCtrl($rootScope, $state, checklistRepo, $translate) {
-    //$rootScope.BACK = 'ffff';
     /* jshint validthis: true */
     var vm = this;
 
@@ -41,7 +40,7 @@
       $state.go('detail');
     }
 
-    function moveChecklist (item, fromIndex, toIndex) {
+    function moveChecklist(item, fromIndex, toIndex) {
       //Move the item in the array
       vm.checklists.splice(fromIndex, 1);
       vm.checklists.splice(toIndex, 0, item);
@@ -55,31 +54,42 @@
     }
   }
 
-  DetailCtrl.$inject = ['$state','$stateParams', 'checklistRepo'];
+  DetailCtrl.$inject = ['$scope', '$rootScope', '$stateParams', '$ionicActionSheet', '$translate', 'checklistRepo'];
 
   /* @ngInject */
-  function DetailCtrl($state, $stateParams, checklistRepo) {
+  function DetailCtrl($scope, $rootScope, $stateParams, $ionicActionSheet, $translate, checklistRepo) {
     var id = parseInt($stateParams.id);
 
     /* jshint validthis: true */
-    var vm = this;
+    var vm = this,
+      currentTranslations;
 
 
     vm.activate = activate;
-    vm.toggleEdit = toggleEdit;
+    vm.edit = edit;
     vm.toggleDeleteAndReorder = toggleDeleteAndReorder;
     vm.reorderCheckpoint = reorderCheckpoint;
     vm.addCheckpoint = addCheckpoint;
     vm.reuse = reuse;
-
-    vm.isDeletingAndReordering = false;
-    vm.newCheckpointTitle = '';
+    vm.toggleCheck = toggleCheck;
 
     activate();
 
     ////////////////
 
+    function updateTranslations(callback) {
+      $translate(['REUSE', 'CANCEL', 'REUSE_DETAILED']).then(function (translations) {
+        currentTranslations = translations;
+        if (callback) {
+          callback();
+        }
+      });
+    }
+
     function activate() {
+      vm.isDeletingAndReordering = false;
+      vm.newCheckpointTitle = '';
+
       vm.checklist = checklistRepo.getById(id);
       if (vm.checklist) {
         vm.isEditing = false;
@@ -87,26 +97,43 @@
         vm.isEditing = true;
         vm.checklist = {
           title: '',
-          checkpoints : []
+          checkpoints: []
         }
       }
+
+      $scope.$on('$ionicView.leave', function () {
+        checklistRepo.saveAll();
+      });
+
+      $rootScope.$on('$translateChangeSuccess', function () {
+        updateTranslations();
+      });
+
+      updateTranslations(function () {
+        console.log('updateTranslations');
+      });
     }
 
-    function toggleEdit() {
+    function edit() {
       vm.isEditing = !vm.isEditing;
       vm.isDeletingAndReordering = false;
     }
 
     function toggleDeleteAndReorder() {
+      if (vm.isDeletingAndReordering) {
+        checklistRepo.saveAll();
+      }
       vm.isDeletingAndReordering = !vm.isDeletingAndReordering;
     }
 
     function reorderCheckpoint(checkpoint, fromIndex, toIndex) {
       vm.checklist.checkpoints.splice(fromIndex, 1);
       vm.checklist.checkpoints.splice(toIndex, 0, checkpoint);
+
+      checklistRepo.saveAll();
     }
 
-    function addCheckpoint(title){
+    function addCheckpoint(title) {
       vm.checklist.checkpoints.unshift({
         title: title,
         isDone: false
@@ -116,9 +143,29 @@
     }
 
     function reuse() {
-      vm.checklist.checkpoints.forEach(function(checkpoint){
-        checkpoint.isDone = false;
+      // Show the action sheet
+      var hideSheet = $ionicActionSheet.show({
+        buttons: [
+          {text: currentTranslations.REUSE}
+        ],
+        titleText: currentTranslations.REUSE_DETAILED,
+        cancelText: currentTranslations.CANCEL,
+        buttonClicked: function (index) {
+          console.log(index);
+          switch (index) {
+            case 0:
+              vm.checklist.checkpoints.forEach(function (checkpoint) {
+                checkpoint.isDone = false;
+              });
+              break;
+          }
+          return true;
+        }
       });
+    } // of reuse();
+
+    function toggleCheck(checkpoint){
+      checklistRepo.saveAll();
     }
-  }
+  } // of DetailCtrl();
 }());
