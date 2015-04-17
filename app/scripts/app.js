@@ -16,7 +16,9 @@ angular.module('starter', ['ionic', 'LocalStorageModule', 'pascalprecht.translat
         StatusBar.styleDefault();
       }
 
-      checklistRepo.init();
+      if (!checklistRepo.loadAll()) {
+        checklistRepo.init();
+      }
     });
   }).config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$ionicConfigProvider', 'localStorageServiceProvider',
     function ($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, localStorageServiceProvider) {

@@ -8,7 +8,21 @@
 
   function checklistRepo(localStorageService) {
     var checklists;
-    var init = function () {
+
+    return {
+      init: init,
+      loadAll: loadAll,
+      saveAll: saveAll,
+      getById: getById,
+      save: save,
+      add: add,
+      remove: remove,
+      nextChecklistId: nextChecklistId
+    };
+
+    ////////////////////////////////////
+
+    function init() {
       localStorageService.set('checklists', [{
         id: 0,
         title: '出差',
@@ -26,20 +40,7 @@
           {title: '毛巾', isDone: false}
         ]
       }]);
-    };
-
-    return {
-      init: init,
-      loadAll: loadAll,
-      saveAll: saveAll,
-      getById: getById,
-      save: save,
-      add: add,
-      remove: remove,
-      nextChecklistId: nextChecklistId
-    };
-
-    ////////////////////////////////////
+    }
 
     function loadAll () {
       checklists = localStorageService.get('checklists');
