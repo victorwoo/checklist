@@ -105,7 +105,7 @@
         }
       }
 
-      $scope.$on('$ionicView.leave', function () {
+      $scope.$on('$ionicView.beforeLeave', function () {
         if (vm.isAdding) {
           checklistRepo.add(vm.checklist);
         }
@@ -117,7 +117,7 @@
       });
 
       updateTranslations(function () {
-        console.log('updateTranslations');
+        //console.log('updateTranslations');
       });
     }
 
