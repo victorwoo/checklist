@@ -66,7 +66,7 @@
 
     vm.activate = activate;
     vm.toggleEdit = toggleEdit;
-    vm.toggledeleteAndReorder = toggledeleteAndReorder;
+    vm.toggleDeleteAndReorder = toggleDeleteAndReorder;
     vm.reorderCheckpoint = reorderCheckpoint;
     vm.addCheckpoint = addCheckpoint;
     vm.reuse = reuse;
@@ -96,7 +96,7 @@
       vm.isDeletingAndReordering = false;
     }
 
-    function toggledeleteAndReorder() {
+    function toggleDeleteAndReorder() {
       vm.isDeletingAndReordering = !vm.isDeletingAndReordering;
     }
 

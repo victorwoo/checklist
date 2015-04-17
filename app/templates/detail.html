@@ -3,7 +3,7 @@
   <!--标题栏按钮-->
   <ion-nav-buttons side="secondary">
     <!--编辑按钮-->
-    <button class="button button-positive button-clear" ng-click="detail.toggleEdit()">
+    <button class="button button-clear" ng-click="detail.toggleEdit()">
       {{detail.isEditing ? 'Done' : 'Edit'}}
     </button>
 
@@ -43,7 +43,7 @@
           <i class="icon ion-plus-round placeholder-icon"></i>
           <input type="text" placeholder="New checkpoint" ng-model="detail.newCheckpointTitle">
         </label>
-        <button class="button button-small" ng-click="detail.addCheckpoint(detail.newCheckpointTitle)">
+        <button class="button button-small ion-plus-round" ng-click="detail.addCheckpoint(detail.newCheckpointTitle)">
           Add
         </button>
       </div>
@@ -76,7 +76,7 @@
       <i class="icon ion-refresh"></i>
       Reuse
     </a>
-    <a class="tab-item" ng-if="detail.isEditing">
+    <a class="tab-item" ng-if="detail.isEditing" ng-click="detail.toggleDeleteAndReorder()">
       <i class="icon ion-navicon"></i>
       Reorder
     </a>

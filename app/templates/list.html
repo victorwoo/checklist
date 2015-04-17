@@ -1,17 +1,24 @@
 <!-- The title of the ion-view will be shown on the navbar -->
-<ion-view >
+<ion-view>
+  <!--<ion-header-bar align-title="left" class="bar-positive">-->
+    <!--<div class="buttons">-->
+      <!--<button class="button" ng-click="doSomething()">Left Button</button>-->
+    <!--</div>-->
+    <!--<h1 class="title">Title!</h1>-->
+    <!--<div class="buttons">-->
+      <!--<button class="button">Right Button</button>-->
+    <!--</div>-->
+  <!--</ion-header-bar>-->
   <ion-nav-buttons side="primary">
     <button class="button" ng-click="list.toggleEdit()">
-      Edit
+      {{ 'EDIT' | translate }}
     </button>
   </ion-nav-buttons>
   <ion-nav-buttons side="secondary">
-    <button class="button" ng-click="list.add()">
-      Add
-    </button>
+    <button class="button button-clear ion-plus-round" ng-click="list.add()"></button>
   </ion-nav-buttons>
   <ion-nav-title>
-    {{list.title}}
+    {{ 'CHECKLIST' | translate }}
   </ion-nav-title>
   <ion-content>
     <!-- The content of the page -->
@@ -20,7 +27,8 @@
         {{checklist.title}}
         <ion-option-button class="button-assertive" ng-click="list.remove(checklist)">Remove</ion-option-button>
         <ion-delete-button class="ion-minus-circled"></ion-delete-button>
-        <ion-reorder-button class="ion-navicon" on-reorder="console.log(1);list.moveChecklist(checklist, $fromIndex, $toIndex)"></ion-reorder-button>
+        <ion-reorder-button class="ion-navicon"
+                            on-reorder="console.log(1);list.moveChecklist(checklist, $fromIndex, $toIndex)"></ion-reorder-button>
       </ion-item>
     </ion-list>
   </ion-content>
