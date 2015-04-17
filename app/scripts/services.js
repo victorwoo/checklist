@@ -34,6 +34,7 @@
       saveAll: saveAll,
       getById: getById,
       save: save,
+      add: add,
       remove: remove,
       nextChecklistId: nextChecklistId
     };
@@ -53,8 +54,10 @@
     }
 
     function getById (id) {
-      var checklists, matched;
-      checklists = loadAll();
+      var matched;
+      if (!checklists) {
+        checklists = loadAll();
+      }
       matched = checklists.filter(function (item) {
         return item.id === id;
       });
@@ -62,9 +65,10 @@
     }
 
     function nextChecklistId () {
-      var maxId = 0,
-        checklists;
-      checklists = loadAll();
+      var maxId = 0;
+      if (!checklists) {
+        checklists = loadAll();
+      }
       checklists.forEach(function (checklist) {
         if (checklist.id > maxId) {
           maxId = checklist.id;
@@ -75,8 +79,10 @@
 
     // TODO 还未测试
     function save (item) {
-      var checklists, matched;
-      checklists = loadAll();
+      var matched;
+      if (!checklists) {
+        checklists = loadAll();
+      }
       if (item.id !== null && item.id !== undefined) {
         // update
         checklists = checklists.map(function (checklist) {
@@ -88,6 +94,11 @@
         checklists.unshift(item);
       }
       saveAll(checklists);
+    }
+
+    function add(item) {
+      checklists.unshift(item);
+      saveAll();
     }
 
     function remove(item) {
