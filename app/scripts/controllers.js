@@ -7,10 +7,11 @@
     .controller('ListCtrl', ListCtrl)
     .controller('DetailCtrl', DetailCtrl);
 
-  ListCtrl.$inject = ['$state', 'checklistRepo'];
+  ListCtrl.$inject = ['$rootScope', '$state', 'checklistRepo', '$translate'];
 
   /* @ngInject */
-  function ListCtrl($state, checklistRepo) {
+  function ListCtrl($rootScope, $state, checklistRepo, $translate) {
+    //$rootScope.BACK = 'ffff';
     /* jshint validthis: true */
     var vm = this;
 

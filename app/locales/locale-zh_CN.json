@@ -3,5 +3,9 @@
   "CHECKPOINT": "待办事项",
   "EDIT": "编辑",
   "ADD": "添加",
-  "BACK": "后退"
+  "REMOVE": "删除",
+  "BACK": "后退",
+  "DONE": "完成",
+  "CHECKLIST_TITLE": "清单标题",
+  "NEW_CHECKPOINT": "新增待办事项"
 }

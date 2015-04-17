@@ -3,5 +3,9 @@
   "CHECKPOINT": "Checkpoint",
   "EDIT": "Edit",
   "ADD": "Add",
-  "Back": "Back"
+  "REMOVE": "Remove",
+  "BACK": "Back",
+  "DONE": "Done",
+  "CHECKLIST_TITLE": "Checklist Title",
+  "NEW_CHECKPOINT": "New Checkpoint"
 }

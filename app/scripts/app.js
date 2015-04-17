@@ -53,7 +53,5 @@ angular.module('starter', ['ionic', 'LocalStorageModule', 'pascalprecht.translat
       $translateProvider.determinePreferredLanguage();
       $translateProvider.fallbackLanguage('zh_CN');
 
-      //$translate('BACK').then(function (text) {
-      //  $ionicConfigProvider.backButton.text(text);
-      //});
+      $ionicConfigProvider.backButton.text('{{"BACK" | translate}}');
     }]);
