@@ -92,9 +92,13 @@
 
       vm.checklist = checklistRepo.getById(id);
       if (vm.checklist) {
+        // 编辑原有待办清单
         vm.isEditing = false;
+        vm.isAdding = false;
       } else {
+        // 新增待办清单
         vm.isEditing = true;
+        vm.isAdding = true;
         vm.checklist = {
           title: '',
           checkpoints: []
@@ -102,6 +106,9 @@
       }
 
       $scope.$on('$ionicView.leave', function () {
+        if (vm.isAdding) {
+          checklistRepo.add(vm.checklist);
+        }
         checklistRepo.saveAll();
       });
 
