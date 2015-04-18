@@ -7,12 +7,13 @@
     .controller('ListCtrl', ListCtrl)
     .controller('DetailCtrl', DetailCtrl);
 
-  ListCtrl.$inject = ['$rootScope', '$state', 'checklistRepo', '$translate'];
+  ListCtrl.$inject = ['$rootScope', '$state', '$http', '$ionicActionSheet', 'checklistRepo', '$translate'];
 
   /* @ngInject */
-  function ListCtrl($rootScope, $state, checklistRepo, $translate) {
+  function ListCtrl($rootScope, $state, $http, $ionicActionSheet, checklistRepo, $translate) {
     /* jshint validthis: true */
-    var vm = this;
+    var vm = this,
+      currentTranslations;
 
     vm.activate = activate;
     vm.toggleEdit = toggleEdit;
@@ -22,14 +23,43 @@
     vm.getUnfinished = getUnfinished;
     vm.isInProgress = isInProgress;
 
-    activate();
+    $translate(['NO_DATA', 'INSERT_SAMPLE_DATA', 'CANCEL'])
+      .then(function (translations) {
+        currentTranslations = translations;
+        activate();
+      });
 
     ////////////////
 
     function activate() {
       vm.isEditing = false;
       vm.checklists = checklistRepo.loadAll();
-    }
+      vm.checklists = null; // TODO
+      if (!vm.checklists) {
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+          buttons: [
+            {text: currentTranslations.INSERT_SAMPLE_DATA}
+          ],
+          titleText: currentTranslations.NO_DATA,
+          cancelText: currentTranslations.CANCEL,
+          buttonClicked: function (index) {
+            switch (index) {
+              case 0:
+                checklistRepo.insertSampleData(function(err, data){
+                  if(err){
+                    console.error(err);
+                    return;
+                  }
+                  vm.checklists = data;
+                });
+                break;
+            }
+            return true;
+          }
+        });
+      }
+    } // of active()
 
     function toggleEdit() {
       vm.isEditing = !vm.isEditing;
@@ -178,7 +208,6 @@
         titleText: currentTranslations.REUSE_DETAILED,
         cancelText: currentTranslations.CANCEL,
         buttonClicked: function (index) {
-          console.log(index);
           switch (index) {
             case 0:
               vm.checklist.checkpoints.forEach(function (checkpoint) {

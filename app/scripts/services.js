@@ -6,7 +6,7 @@
     .module('starter')
     .factory('checklistRepo', checklistRepo);
 
-  function checklistRepo(localStorageService) {
+  function checklistRepo($translate, $http, localStorageService) {
     var checklists;
 
     return {
@@ -17,7 +17,8 @@
       save: save,
       add: add,
       remove: remove,
-      nextChecklistId: nextChecklistId
+      nextChecklistId: nextChecklistId,
+      insertSampleData: insertSampleData
     };
 
     ////////////////////////////////////
@@ -104,6 +105,31 @@
 
     function remove(item) {
 
+    }
+
+    function insertSampleData(callback) {
+      $translate(['SAMPLE_PATH'])
+        .then(function (translations) {
+          var samplePath = translations.SAMPLE_PATH;
+          $http.get(samplePath).
+            success(function(data, status, headers, config) {
+              // this callback will be called asynchronously
+              // when the response is available
+              checklists = data;
+              callback(null, data);
+            }).
+            error(function(data, status, headers, config) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+              console.error(data, status, headers, config);
+              callback({
+                data: data,
+                status: status,
+                headers: headers,
+                config: config
+              });
+            });
+        });
     }
   }
 }());

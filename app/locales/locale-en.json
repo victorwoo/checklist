@@ -11,5 +11,8 @@
   "REUSE": "Reuse",
   "CANCEL": "Cancel",
   "REUSE_DETAILED": "Clear Finished Flags and Restart",
-  "UNTITLED": "Untitled"
+  "UNTITLED": "Untitled",
+  "NO_DATA": "Your Sample Checklists are Empty",
+  "INSERT_SAMPLE_DATA": "Insert Sample Checklists",
+  "SAMPLE_PATH": "/data/sample-en.json"
 }
