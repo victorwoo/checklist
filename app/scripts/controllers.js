@@ -14,21 +14,20 @@
     /* jshint validthis: true */
     var vm = this;
 
-    vm.title = 'Checklist';
-    vm.isEditing = false;
-
     vm.activate = activate;
     vm.toggleEdit = toggleEdit;
     vm.add = add;
     vm.moveChecklist = moveChecklist;
     vm.remove = remove;
+    vm.getUnfinished = getUnfinished;
+    vm.isInProgress = isInProgress;
 
     activate();
 
     ////////////////
 
     function activate() {
-      //checklistRepo.init();
+      vm.isEditing = false;
       vm.checklists = checklistRepo.loadAll();
     }
 
@@ -51,6 +50,24 @@
       var index = vm.checklists.indexOf(item);
       vm.checklists.splice(index, 1);
       checklistRepo.saveAll(vm.checklists);
+    }
+
+    function getUnfinished(checklist) {
+      var unfinished = checklist.checkpoints.filter(function(checkpoint) {
+        return !checkpoint.isDone;
+      });
+      return unfinished.length;
+    }
+
+    function isInProgress(checklist) {
+      var anyUnfinished = checklist.checkpoints.some(function(checkpoint){
+        return !checkpoint.isDone;
+      });
+      var allDone = checklist.checkpoints.every(function(checkpoint){
+        return checkpoint.isDone;
+      });
+
+      return anyUnfinished && !allDone;
     }
   }
 
