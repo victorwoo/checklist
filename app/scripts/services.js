@@ -6,41 +6,21 @@
     .module('starter')
     .factory('checklistRepo', checklistRepo);
 
-  function checklistRepo(localStorageService) {
+  function checklistRepo($translate, $http, localStorageService) {
     var checklists;
 
     return {
-      init: init,
       loadAll: loadAll,
       saveAll: saveAll,
       getById: getById,
       save: save,
       add: add,
       remove: remove,
-      nextChecklistId: nextChecklistId
+      nextChecklistId: nextChecklistId,
+      insertSampleData: insertSampleData
     };
 
     ////////////////////////////////////
-
-    function init() {
-      localStorageService.set('checklists', [{
-        id: 0,
-        title: '出差',
-        checkpoints: [
-          {title: '身份证', isDone: false},
-          {title: '衣服', isDone: true},
-          {title: '会员卡', isDone: false},
-          {title: '充电器', isDone: true}
-        ]
-      }, {
-        id: 1,
-        title: '羽毛球',
-        checkpoints: [
-          {title: '球拍', isDone: true},
-          {title: '毛巾', isDone: false}
-        ]
-      }]);
-    }
 
     function loadAll () {
       checklists = localStorageService.get('checklists');
@@ -104,6 +84,31 @@
 
     function remove(item) {
 
+    }
+
+    function insertSampleData(callback) {
+      $translate(['SAMPLE_PATH'])
+        .then(function (translations) {
+          var samplePath = translations.SAMPLE_PATH;
+          $http.get(samplePath).
+            success(function(data, status, headers, config) {
+              // this callback will be called asynchronously
+              // when the response is available
+              saveAll(data);
+              callback(null, data);
+            }).
+            error(function(data, status, headers, config) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+              console.error(data, status, headers, config);
+              callback({
+                data: data,
+                status: status,
+                headers: headers,
+                config: config
+              });
+            });
+        });
     }
   }
 }());

@@ -7,30 +7,58 @@
     .controller('ListCtrl', ListCtrl)
     .controller('DetailCtrl', DetailCtrl);
 
-  ListCtrl.$inject = ['$rootScope', '$state', 'checklistRepo', '$translate'];
+  ListCtrl.$inject = ['$rootScope', '$state', '$http', '$ionicActionSheet', 'checklistRepo', '$translate'];
 
   /* @ngInject */
-  function ListCtrl($rootScope, $state, checklistRepo, $translate) {
+  function ListCtrl($rootScope, $state, $http, $ionicActionSheet, checklistRepo, $translate) {
     /* jshint validthis: true */
-    var vm = this;
-
-    vm.title = 'Checklist';
-    vm.isEditing = false;
+    var vm = this,
+      currentTranslations;
 
     vm.activate = activate;
     vm.toggleEdit = toggleEdit;
     vm.add = add;
     vm.moveChecklist = moveChecklist;
     vm.remove = remove;
+    vm.getUnfinished = getUnfinished;
+    vm.isInProgress = isInProgress;
 
-    activate();
+    $translate(['NO_DATA', 'INSERT_SAMPLE_DATA', 'CANCEL'])
+      .then(function (translations) {
+        currentTranslations = translations;
+        activate();
+      });
 
     ////////////////
 
     function activate() {
-      //checklistRepo.init();
+      vm.isEditing = false;
       vm.checklists = checklistRepo.loadAll();
-    }
+      if (!vm.checklists || !vm.checklists.length) {
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+          buttons: [
+            {text: currentTranslations.INSERT_SAMPLE_DATA}
+          ],
+          titleText: currentTranslations.NO_DATA,
+          cancelText: currentTranslations.CANCEL,
+          buttonClicked: function (index) {
+            switch (index) {
+              case 0:
+                checklistRepo.insertSampleData(function(err, data){
+                  if(err){
+                    console.error(err);
+                    return;
+                  }
+                  vm.checklists = data;
+                });
+                break;
+            }
+            return true;
+          }
+        });
+      }
+    } // of active()
 
     function toggleEdit() {
       vm.isEditing = !vm.isEditing;
@@ -52,6 +80,24 @@
       vm.checklists.splice(index, 1);
       checklistRepo.saveAll(vm.checklists);
     }
+
+    function getUnfinished(checklist) {
+      var unfinished = checklist.checkpoints.filter(function (checkpoint) {
+        return !checkpoint.isDone;
+      });
+      return unfinished.length;
+    }
+
+    function isInProgress(checklist) {
+      var anyUnfinished = checklist.checkpoints.some(function (checkpoint) {
+        return !checkpoint.isDone;
+      });
+      var allDone = checklist.checkpoints.every(function (checkpoint) {
+        return checkpoint.isDone;
+      });
+
+      return anyUnfinished && !allDone;
+    }
   }
 
   DetailCtrl.$inject = ['$scope', '$rootScope', '$stateParams', '$ionicActionSheet', '$translate', 'checklistRepo'];
@@ -63,7 +109,6 @@
     /* jshint validthis: true */
     var vm = this,
       currentTranslations;
-
 
     vm.activate = activate;
     vm.edit = edit;
@@ -78,12 +123,13 @@
     ////////////////
 
     function updateTranslations(callback) {
-      $translate(['REUSE', 'CANCEL', 'REUSE_DETAILED']).then(function (translations) {
-        currentTranslations = translations;
-        if (callback) {
-          callback();
-        }
-      });
+      $translate(['REUSE', 'CANCEL', 'REUSE_DETAILED', 'UNTITLED'])
+        .then(function (translations) {
+          currentTranslations = translations;
+          if (callback) {
+            callback();
+          }
+        });
     }
 
     function activate() {
@@ -107,6 +153,9 @@
 
       $scope.$on('$ionicView.beforeLeave', function () {
         if (vm.isAdding) {
+          if (!vm.checklist.title) {
+            vm.checklist.title = currentTranslations.UNTITLED;
+          }
           checklistRepo.add(vm.checklist);
         }
         checklistRepo.saveAll();
@@ -158,7 +207,6 @@
         titleText: currentTranslations.REUSE_DETAILED,
         cancelText: currentTranslations.CANCEL,
         buttonClicked: function (index) {
-          console.log(index);
           switch (index) {
             case 0:
               vm.checklist.checkpoints.forEach(function (checkpoint) {
@@ -171,7 +219,7 @@
       });
     } // of reuse();
 
-    function toggleCheck(checkpoint){
+    function toggleCheck(checkpoint) {
       checklistRepo.saveAll();
     }
   } // of DetailCtrl();
