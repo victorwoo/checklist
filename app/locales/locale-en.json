@@ -10,5 +10,6 @@
   "NEW_CHECKPOINT": "New Checkpoint",
   "REUSE": "Reuse",
   "CANCEL": "Cancel",
-  "REUSE_DETAILED": "Clear Finished Flags and Restart"
+  "REUSE_DETAILED": "Clear Finished Flags and Restart",
+  "UNTITLED": "Untitled"
 }

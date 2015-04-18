@@ -53,17 +53,17 @@
     }
 
     function getUnfinished(checklist) {
-      var unfinished = checklist.checkpoints.filter(function(checkpoint) {
+      var unfinished = checklist.checkpoints.filter(function (checkpoint) {
         return !checkpoint.isDone;
       });
       return unfinished.length;
     }
 
     function isInProgress(checklist) {
-      var anyUnfinished = checklist.checkpoints.some(function(checkpoint){
+      var anyUnfinished = checklist.checkpoints.some(function (checkpoint) {
         return !checkpoint.isDone;
       });
-      var allDone = checklist.checkpoints.every(function(checkpoint){
+      var allDone = checklist.checkpoints.every(function (checkpoint) {
         return checkpoint.isDone;
       });
 
@@ -81,7 +81,6 @@
     var vm = this,
       currentTranslations;
 
-
     vm.activate = activate;
     vm.edit = edit;
     vm.toggleDeleteAndReorder = toggleDeleteAndReorder;
@@ -95,12 +94,13 @@
     ////////////////
 
     function updateTranslations(callback) {
-      $translate(['REUSE', 'CANCEL', 'REUSE_DETAILED']).then(function (translations) {
-        currentTranslations = translations;
-        if (callback) {
-          callback();
-        }
-      });
+      $translate(['REUSE', 'CANCEL', 'REUSE_DETAILED', 'UNTITLED'])
+        .then(function (translations) {
+          currentTranslations = translations;
+          if (callback) {
+            callback();
+          }
+        });
     }
 
     function activate() {
@@ -124,6 +124,9 @@
 
       $scope.$on('$ionicView.beforeLeave', function () {
         if (vm.isAdding) {
+          if (!vm.checklist.title) {
+            vm.checklist.title = currentTranslations.UNTITLED;
+          }
           checklistRepo.add(vm.checklist);
         }
         checklistRepo.saveAll();
@@ -188,7 +191,7 @@
       });
     } // of reuse();
 
-    function toggleCheck(checkpoint){
+    function toggleCheck(checkpoint) {
       checklistRepo.saveAll();
     }
   } // of DetailCtrl();

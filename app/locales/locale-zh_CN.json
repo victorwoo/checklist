@@ -10,5 +10,6 @@
   "NEW_CHECKPOINT": "新增待办事项",
   "REUSE": "重新开始",
   "CANCEL": "取消",
-  "REUSE_DETAILED": "清除完成状态并重新开始"
+  "REUSE_DETAILED": "清除完成状态并重新开始",
+  "UNTITLED": "无标题"
 }
