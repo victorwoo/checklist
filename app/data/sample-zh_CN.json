@@ -1,38 +1,96 @@
 [
-  {
-    "id": 0,
-    "title": "出差",
-    "checkpoints": [
-      {
-        "title": "身份证",
-        "isDone": false
-      },
-      {
-        "title": "衣服",
-        "isDone": true
-      },
-      {
-        "title": "会员卡",
-        "isDone": false
-      },
-      {
-        "title": "充电器",
-        "isDone": true
-      }
-    ]
-  },
-  {
-    "id": 1,
-    "title": "羽毛球",
-    "checkpoints": [
-      {
-        "title": "球拍",
-        "isDone": true
-      },
-      {
-        "title": "毛巾",
-        "isDone": false
-      }
-    ]
-  }
+	{
+		"id": 0,
+		"title": "出差",
+		"checkpoints": [
+			{
+				"title": "身份证",
+				"isDone": false
+			}, {
+				"title": "记事本",
+				"isDone": false
+			}, {
+				"title": "名片",
+				"isDone": true
+			}, {
+				"title": "衣服",
+				"isDone": true
+			}, {
+				"title": "会员卡",
+				"isDone": false
+			}, {
+				"title": "剃须刀",
+				"isDone": true
+			}, {
+				"title": "塑料袋",
+				"isDone": true
+			}, {
+				"title": "纸巾",
+				"isDone": true
+			}, {
+				"title": "移动电源",
+				"isDone": false
+			}, {
+				"title": "数据线",
+				"isDone": false
+			}, {
+				"title": "电源适配器",
+				"isDone": true
+			}, {
+				"title": "Kindle",
+				"isDone": true
+			}
+		]
+	}, {
+		"id": 1,
+		"title": "羽毛球",
+		"checkpoints": [
+			{
+				"title": "球拍",
+				"isDone": true
+			}, {
+				"title": "毛巾",
+				"isDone": false
+			}, {
+				"title": "饮料",
+				"isDone": false
+			}, {
+				"title": "衣服",
+				"isDone": true
+			}, {
+				"title": "球鞋",
+				"isDone": false
+			}, {
+				"title": "护腕",
+				"isDone": false
+			}
+		]
+	}, {
+		"id": 2,
+		"title": "游泳",
+		"checkpoints": [
+			{
+				"title": "会员卡",
+				"isDone": false
+			}, {
+				"title": "游泳裤",
+				"isDone": true
+			}, {
+				"title": "游泳镜",
+				"isDone": false
+			}, {
+				"title": "游泳帽",
+				"isDone": false
+			}, {
+				"title": "鼻夹",
+				"isDone": true
+			}, {
+				"title": "耳塞",
+				"isDone": true
+			}, {
+				"title": "跟屁虫",
+				"isDone": false
+			}
+		]
+	}
 ]

@@ -34,8 +34,7 @@
     function activate() {
       vm.isEditing = false;
       vm.checklists = checklistRepo.loadAll();
-      vm.checklists = null; // TODO
-      if (!vm.checklists) {
+      if (!vm.checklists || !vm.checklists.length) {
         // Show the action sheet
         var hideSheet = $ionicActionSheet.show({
           buttons: [

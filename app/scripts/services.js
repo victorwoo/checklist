@@ -10,7 +10,6 @@
     var checklists;
 
     return {
-      init: init,
       loadAll: loadAll,
       saveAll: saveAll,
       getById: getById,
@@ -22,26 +21,6 @@
     };
 
     ////////////////////////////////////
-
-    function init() {
-      localStorageService.set('checklists', [{
-        id: 0,
-        title: '出差',
-        checkpoints: [
-          {title: '身份证', isDone: false},
-          {title: '衣服', isDone: true},
-          {title: '会员卡', isDone: false},
-          {title: '充电器', isDone: true}
-        ]
-      }, {
-        id: 1,
-        title: '羽毛球',
-        checkpoints: [
-          {title: '球拍', isDone: true},
-          {title: '毛巾', isDone: false}
-        ]
-      }]);
-    }
 
     function loadAll () {
       checklists = localStorageService.get('checklists');
@@ -115,7 +94,7 @@
             success(function(data, status, headers, config) {
               // this callback will be called asynchronously
               // when the response is available
-              checklists = data;
+              saveAll(data);
               callback(null, data);
             }).
             error(function(data, status, headers, config) {
