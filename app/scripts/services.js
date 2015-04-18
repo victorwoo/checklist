@@ -2,10 +2,13 @@
  * Created by Victor on 2015/4/10.
  */
 (function () {
+  'use strict';
+
   angular
     .module('starter')
     .factory('checklistRepo', checklistRepo);
 
+  /* @ngInject */
   function checklistRepo($translate, $http, localStorageService) {
     var checklists;
 

@@ -2,6 +2,8 @@
  * Created by Victor on 2015/4/10.
  */
 (function () {
+  'use strict';
+
   angular
     .module('starter')
     .controller('ListCtrl', ListCtrl)
@@ -15,6 +17,7 @@
     var vm = this,
       currentTranslations;
 
+    /* jshint validthis: true */
     vm.activate = activate;
     vm.toggleEdit = toggleEdit;
     vm.add = add;
@@ -148,7 +151,7 @@
         vm.checklist = {
           title: '',
           checkpoints: []
-        }
+        };
       }
 
       $scope.$on('$ionicView.beforeLeave', function () {

@@ -6,6 +6,7 @@
 angular.module('starter', ['ionic', 'LocalStorageModule', 'pascalprecht.translate'])
 
   .run(function ($ionicPlatform, checklistRepo) {
+    'use strict';
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -22,6 +23,7 @@ angular.module('starter', ['ionic', 'LocalStorageModule', 'pascalprecht.translat
     });
   }).config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$ionicConfigProvider', 'localStorageServiceProvider',
     function ($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, localStorageServiceProvider) {
+      'use strict';
       // Ionic uses AngularUI Router which uses the concept of states
       // Learn more here: https://github.com/angular-ui/ui-router
       // Set up the various states which the app can be in.
@@ -29,14 +31,14 @@ angular.module('starter', ['ionic', 'LocalStorageModule', 'pascalprecht.translat
       $stateProvider
         // setup an abstract state for the tabs directive
         .state('list', {
-          url: "/",
-          templateUrl: "templates/list.html",
-          controller: "ListCtrl as list"
+          url: '/',
+          templateUrl: 'templates/list.html',
+          controller: 'ListCtrl as list'
         })
         .state('detail', {
           url: '/detail/:id',
-          templateUrl: "/templates/detail.html",
-          controller: "DetailCtrl as detail"
+          templateUrl: '/templates/detail.html',
+          controller: 'DetailCtrl as detail'
         });
       // if none of the above states are matched, use this as the fallback
       $urlRouterProvider.otherwise('/');
