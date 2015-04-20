@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'LocalStorageModule', 'pascalprecht.translate'])
 
-  .run(function ($ionicPlatform, checklistRepo) {
+  .run(function ($ionicPlatform) {
     'use strict';
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -16,10 +16,6 @@ angular.module('starter', ['ionic', 'LocalStorageModule', 'pascalprecht.translat
       if (window.StatusBar) {
         StatusBar.styleDefault();
       }
-
-      //if (!checklistRepo.loadAll()) {
-      //  checklistRepo.init();
-      //}
     });
   }).config(['$stateProvider', '$urlRouterProvider', '$translateProvider', '$ionicConfigProvider', 'localStorageServiceProvider',
     function ($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, localStorageServiceProvider) {

@@ -35,7 +35,7 @@ module.exports = function (grunt) {
     ngconstant: {
       options: {
         space: '  ',
-        wrap: '"use strict";\n\n {%= __ngModule %}',
+        wrap: '\'use strict\';\n\n {%= __ngModule %}',
         name: 'config',
         dest: '<%= yeoman.app %>/<%= yeoman.scripts %>/configuration.js'
       },
@@ -157,7 +157,7 @@ module.exports = function (grunt) {
       }
     },
 
-    
+
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
@@ -224,7 +224,9 @@ module.exports = function (grunt) {
             '<%= yeoman.images %>/**/*.{png,jpg,jpeg,gif,webp,svg}',
             '*.html',
             'templates/**/*.html',
-            'fonts/*'
+            'fonts/*',
+            'locales/*',
+            'data/*'
           ]
         }, {
           expand: true,
@@ -241,7 +243,7 @@ module.exports = function (grunt) {
       },
       fonts: {
         expand: true,
-        cwd: 'app/lib/ionic/release/fonts/',
+        cwd: 'app/bower_components/ionic/fonts/',
         dest: '<%= yeoman.app %>/fonts/',
         src: '*'
       },
@@ -359,7 +361,7 @@ module.exports = function (grunt) {
       },
       continuous: {
         browsers: ['PhantomJS'],
-        singleRun: true,
+        singleRun: true
       }
     },
 
@@ -496,7 +498,6 @@ module.exports = function (grunt) {
     'newer:copy:tmp'
   ]);
 
-
   grunt.registerTask('compress', [
     'clean',
     'ngconstant:production',
@@ -513,7 +514,7 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
 
-  grunt.registerTask('coverage', 
+  grunt.registerTask('coverage',
     ['karma:continuous',
     'connect:coverage:keepalive'
   ]);
@@ -521,7 +522,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'wiredep',
     'newer:jshint',
-    'karma:continuous',
+    //'karma:continuous',
     'compress'
   ]);
 };

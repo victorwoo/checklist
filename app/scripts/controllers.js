@@ -39,7 +39,7 @@
       vm.checklists = checklistRepo.loadAll();
       if (!vm.checklists || !vm.checklists.length) {
         // Show the action sheet
-        var hideSheet = $ionicActionSheet.show({
+        $ionicActionSheet.show({
           buttons: [
             {text: currentTranslations.INSERT_SAMPLE_DATA}
           ],
@@ -203,7 +203,7 @@
 
     function reuse() {
       // Show the action sheet
-      var hideSheet = $ionicActionSheet.show({
+      $ionicActionSheet.show({
         buttons: [
           {text: currentTranslations.REUSE}
         ],
@@ -222,7 +222,7 @@
       });
     } // of reuse();
 
-    function toggleCheck(checkpoint) {
+    function toggleCheck(checkpoint) { // jshint ignore:line
       checklistRepo.saveAll();
     }
   } // of DetailCtrl();
