@@ -2,6 +2,8 @@
  * Created by Victor on 2015/4/10.
  */
 (function () {
+  'use strict';
+
   angular
     .module('starter')
     .controller('ListCtrl', ListCtrl)
@@ -15,6 +17,7 @@
     var vm = this,
       currentTranslations;
 
+    /* jshint validthis: true */
     vm.activate = activate;
     vm.toggleEdit = toggleEdit;
     vm.add = add;
@@ -36,7 +39,7 @@
       vm.checklists = checklistRepo.loadAll();
       if (!vm.checklists || !vm.checklists.length) {
         // Show the action sheet
-        var hideSheet = $ionicActionSheet.show({
+        $ionicActionSheet.show({
           buttons: [
             {text: currentTranslations.INSERT_SAMPLE_DATA}
           ],
@@ -148,7 +151,7 @@
         vm.checklist = {
           title: '',
           checkpoints: []
-        }
+        };
       }
 
       $scope.$on('$ionicView.beforeLeave', function () {
@@ -200,7 +203,7 @@
 
     function reuse() {
       // Show the action sheet
-      var hideSheet = $ionicActionSheet.show({
+      $ionicActionSheet.show({
         buttons: [
           {text: currentTranslations.REUSE}
         ],
@@ -219,7 +222,7 @@
       });
     } // of reuse();
 
-    function toggleCheck(checkpoint) {
+    function toggleCheck(checkpoint) { // jshint ignore:line
       checklistRepo.saveAll();
     }
   } // of DetailCtrl();

@@ -2,10 +2,13 @@
  * Created by Victor on 2015/4/10.
  */
 (function () {
+  'use strict';
+
   angular
     .module('starter')
     .factory('checklistRepo', checklistRepo);
 
+  /* @ngInject */
   function checklistRepo($translate, $http, localStorageService) {
     var checklists;
 
@@ -13,7 +16,6 @@
       loadAll: loadAll,
       saveAll: saveAll,
       getById: getById,
-      save: save,
       add: add,
       remove: remove,
       nextChecklistId: nextChecklistId,
@@ -58,32 +60,19 @@
       return maxId;
     }
 
-    // TODO 还未测试
-    function save (item) {
-      var matched;
-      if (!checklists) {
-        checklists = loadAll();
-      }
-      if (item.id !== null && item.id !== undefined) {
-        // update
-        checklists = checklists.map(function (checklist) {
-          return checklist.id === item.id ? item : checklist;
-        });
-      } else {
-        // insert
-        item.id = nextChecklistId();
-        checklists.unshift(item);
-      }
-      saveAll(checklists);
-    }
-
     function add(item) {
       checklists.unshift(item);
       saveAll();
     }
 
     function remove(item) {
-
+      var index = checklists.indexOf(item);
+      if (index >= 0){
+        checklists.splice(index, 1);
+        return true;
+      } else {
+        return false;
+      }
     }
 
     function insertSampleData(callback) {
@@ -91,7 +80,7 @@
         .then(function (translations) {
           var samplePath = translations.SAMPLE_PATH;
           $http.get(samplePath).
-            success(function(data, status, headers, config) {
+            success(function(data, status, headers, config) { // jshint ignore:line
               // this callback will be called asynchronously
               // when the response is available
               saveAll(data);
