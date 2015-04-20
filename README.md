@@ -2,9 +2,9 @@ Checklist
 =========
 A reusable checklist app.
 
-待办事项
---------
-- [ ] Deploy app to CDN.
+Task List
+---------
+- [x] Deploy app to cloud server.
 - [x] Avoid warnings by jshint.
 - [x] Complete build output task.
 - [x] Copy .json files automatically.
