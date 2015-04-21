@@ -50,8 +50,14 @@ angular.module('starter', ['ionic', 'LocalStorageModule', 'pascalprecht.translat
         suffix: '.json'
       });
 
+      $translateProvider.registerAvailableLanguageKeys(['en', 'zh'], {
+        'en_US': 'en',
+        'en_UK': 'en',
+        'zh_CN': 'zh',
+        'zh_TW': 'zh'
+      });
       $translateProvider.determinePreferredLanguage();
-      $translateProvider.fallbackLanguage('zh_CN');
+      $translateProvider.fallbackLanguage('zh');
 
       $ionicConfigProvider.backButton.text('{{"BACK" | translate}}');
     }]);
