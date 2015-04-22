@@ -9,8 +9,6 @@
     .controller('ListCtrl', ListCtrl)
     .controller('DetailCtrl', DetailCtrl);
 
-  ListCtrl.$inject = ['$rootScope', '$state', '$http', '$ionicActionSheet', 'checklistRepo', '$translate'];
-
   /* @ngInject */
   function ListCtrl($rootScope, $state, $http, $ionicActionSheet, checklistRepo, $translate) {
     /* jshint validthis: true */
@@ -103,10 +101,8 @@
     }
   }
 
-  DetailCtrl.$inject = ['$scope', '$rootScope', '$stateParams', '$ionicActionSheet', '$translate', 'checklistRepo'];
-
   /* @ngInject */
-  function DetailCtrl($scope, $rootScope, $stateParams, $ionicActionSheet, $translate, checklistRepo) {
+  function DetailCtrl($scope, $rootScope, $stateParams, $ionicActionSheet, $translate, $state, checklistRepo, browserInfo) {
     var id = parseInt($stateParams.id);
 
     /* jshint validthis: true */
@@ -120,6 +116,8 @@
     vm.addCheckpoint = addCheckpoint;
     vm.reuse = reuse;
     vm.toggleCheck = toggleCheck;
+    vm.shouldShowNativeBack = shouldShowNativeBack;
+    vm.goBack = goBack;
 
     activate();
 
@@ -224,6 +222,15 @@
 
     function toggleCheck(checkpoint) { // jshint ignore:line
       checklistRepo.saveAll();
+    }
+
+    function shouldShowNativeBack() {
+      return false;
+      //return !browserInfo.isEmbedded();
+    }
+
+    function goBack(){
+      $state.go('list');
     }
   } // of DetailCtrl();
 }());

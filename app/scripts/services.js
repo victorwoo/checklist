@@ -100,4 +100,23 @@
         });
     }
   }
+
+  angular
+    .module('starter')
+    .factory('browserInfo', browserInfo);
+
+  /* @ngInject */
+  function browserInfo() {
+
+    return {
+      isEmbedded:isEmbedded
+    };
+
+    ////////////////////////////////////
+
+    function isEmbedded() {
+      return /\bQQ\/([\d.]+)\b/.test(navigator.userAgent) ||
+        /\bMicroMessenger\/([\d.]+)\b/.test(navigator.userAgent);
+    }
+  }
 }());

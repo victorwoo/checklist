@@ -1,7 +1,12 @@
-<ion-view>
+<ion-view hide-back-button="!detail.shouldShowNativeBack()">
 
   <!--标题栏按钮-->
-  <ion-nav-buttons side="secondary">
+  <ion-nav-buttons side="primary">
+    <button class="button icon ion-ios-arrow-back" ng-if="!detail.shouldShowNativeBack()" ng-click="detail.goBack()">{{ 'BACK' | translate}}</button>
+  </ion-nav-buttons>
+
+  <!--标题栏按钮-->
+  <ion-nav-buttons side="secondary" hide-back-button="edit.!shouldShowNativeBack">
     <!--编辑按钮-->
     <button class="button" ng-click="detail.edit()" ng-if="!detail.isEditing">
       {{ 'EDIT' | translate }}
